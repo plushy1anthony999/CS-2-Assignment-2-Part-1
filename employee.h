@@ -35,24 +35,15 @@ class Employee {
 	int educationalCode;
 
 public:
-    Employee();
-
 	Employee(
-		bool isEmptyEmployee,
 		std::string firstName = "",
 		std::string lastName = "",
 		char employeeCode = '\0',
 		int idNumber = 0000,
-		int classificationCode = 0,
-		int yearsOfService = 0,
-		int educationalCode = 0
+		int classificationCode = -1,
+		int yearsOfService = -1,
+		int educationalCode = -1
 	);
-
-	// Private Setters
-	void calculateJobType();
-	void calculateEmployeeBasePay();
-	bool validate();
-	void calculateGrossSalary();
 
 	// Getters
 	const std::string getFirstName() const;
@@ -71,4 +62,13 @@ public:
 
 	// Writes a single Employee's Info formatted in a table to the console
 	void writeToConsole(std::ostream & console) const;
+
+private:
+	bool calculateIsEmptyEmployee();
+
+	// Private Setters
+	void calculateJobType();
+	void calculateEmployeeBasePay();
+	bool validate();
+	void calculateGrossSalary();
 };

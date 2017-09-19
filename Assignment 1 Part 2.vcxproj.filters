@@ -35,12 +35,18 @@
     <ClCompile Include="employee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BankAccount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="employee.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="employees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BankAccount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,12 +2,14 @@
 #include <sstream>
 #include "Employee.h"
 #include "Employees.h"
+#include "BankAccount.h"
 
 using namespace std;
 
 void doUnitTesting();
 void testEmployeeClass();
 void testEmployeesClass();
+void testBankAccountClass();
 
 template <typename T>
 bool promptForValue(T & value, string promptMessage = "", string errorMessage = "");
@@ -142,7 +144,7 @@ void doUnitTesting() {
 	cout << "----------------------------------------------------" << endl;
 	testEmployeeClass();
 	testEmployeesClass();
-	
+	testBankAccountClass();
 	
 	cout << "All tests passed" << endl;
 	cout << "-----------------------------------------------------" << endl;
@@ -152,7 +154,6 @@ void testEmployeeClass() {
 	/* Test Employee Class */
 	cout << "Testing the Employee Class..." << endl;
 	Employee employee_1 = Employee(
-		false,
 		"Anthony",
 		"Ghouri",
 		'M',
@@ -163,7 +164,6 @@ void testEmployeeClass() {
 	);
 
 	Employee employee_2 = Employee(
-		false,
 		"Emily",
 		"Ghouri",
 		'S',
@@ -200,7 +200,6 @@ void testEmployeeClass() {
 	cout << endl;
 }
 void testEmployeesClass() {
-	/* Test Employees Class */
 	cout << "Testing the Employees Class..." << endl;
 
 	ifstream inputFile1("namelist.txt");
@@ -294,6 +293,49 @@ void testEmployeesClass() {
 	assert(employeeById.getJobType() == "Office Worker");
 	assert(employeeById.getEmployeeBasePay() == EMPLOYEE_CODE_O_BASE_PAY);
 	assert(employeeById.getGrossSalary() == 1690);
+}
+
+void testBankAccountClass() {
+	cout << "Testing the BankAccount Class..." << endl;
+	BankAccount bankAccount1;
+	BankAccount bankAccount2("123", "Anthony", "Ghouri", 10);
+	BankAccount bankAccount3("12", "George", "Washington", -1);
+
+	// Test Getters
+	assert(bankAccount1.getAccountNumber() == "Account Number not set");
+	assert(bankAccount1.getFirstName() == "First Name not set");
+	assert(bankAccount1.getLastName() == "Last Name not set");
+	assert(bankAccount1.getFullName() == "First Name not set Last Name not set");
+	assert(bankAccount1.getBalance() == 0);
+	assert(bankAccount2.getAccountNumber() == "123");
+	assert(bankAccount2.getFirstName() == "Anthony");
+	assert(bankAccount2.getFullName() == "Anthony Ghouri");
+	assert(bankAccount2.getBalance() == 10);
+	assert(bankAccount3.getAccountNumber() == "12");
+	assert(bankAccount3.getBalance() == 0);
+
+	// Test Setters
+	bankAccount1.setAccountNumber("1");
+	assert(bankAccount1.getAccountNumber() == "1");
+	bankAccount1.setAccountNumber("");
+	assert(bankAccount1.getAccountNumber() == "1");
+	bankAccount2.setLastName("Smith");
+	assert(bankAccount2.getFullName() == "Anthony Smith");
+
+	// Test toString()
+	stringstream sstream;
+	sstream << left << setw(20) << "Name" << setw(20) << "Account Number" << setw(16) << "Current Balance" << endl;
+	sstream << left << setw(20) << "Anthony Smith" << setw(20) << "123" << '$' << setw(16) << fixed << setprecision(2) << (double)10;
+
+	//cout << sstream.str() << endl;
+	//cout << bankAccount2.toString() << endl;
+	assert(bankAccount2.toString() == sstream.str());
+
+	// Test print() w/ cout
+
+	// Test print() w/ output-file
+	ofstream outfile("BankAccount_toString()_Test.txt");
+	bankAccount1.print(outfile);
 }
 
 template <typename T>

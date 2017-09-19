@@ -2,20 +2,8 @@
 
 using namespace std;
 
-Employee::Employee() {
-	this->firstName = "";
-	this->lastName = "";
-	this->employeeCode = '\0';
-	this->idNumber = 0000;
-	this->classificationCode = -1;
-	this->yearsOfService = -1;
-	this->educationalCode = -1;
-
-	isEmptyEmployee = true;
-}
 
 Employee::Employee(
-	bool isEmptyEmployee,
 	string firstName,
 	string lastName,
 	char employeeCode,
@@ -23,17 +11,10 @@ Employee::Employee(
 	int classificationCode,
 	int yearsOfService,
 	int educationalCode
-) {
-	// Initialize member variables with arguments passed in
-	this->firstName = firstName;
-	this->lastName = lastName;
-	this->employeeCode = employeeCode;
-	this->idNumber = idNumber;
-	this->classificationCode = classificationCode;
-	this->yearsOfService = yearsOfService;
-	this->educationalCode = educationalCode;
+) : firstName(firstName), lastName(lastName), employeeCode(employeeCode), idNumber(idNumber), classificationCode(classificationCode), yearsOfService(yearsOfService), educationalCode(educationalCode)
 
-	this->isEmptyEmployee = isEmptyEmployee;
+{
+	isEmptyEmployee = calculateIsEmptyEmployee();
 
 	//Initialize private member variables
 	calculateJobType();
@@ -43,6 +24,22 @@ Employee::Employee(
 }
 
 // Private Setters
+bool Employee::calculateIsEmptyEmployee() {
+	if (
+		firstName == "",
+		lastName == "",
+		employeeCode == '\0',
+		idNumber == 0000,
+		classificationCode == -1,
+		yearsOfService == -1,
+		educationalCode == -1
+		) {
+		return true;
+	}
+	else
+		return false;	
+}
+
 void Employee::calculateJobType() {
 	switch (employeeCode) {
 	case 'S':

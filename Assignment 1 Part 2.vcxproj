@@ -122,11 +122,13 @@
     <Text Include="namelist3.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BankAccount.cpp" />
     <ClCompile Include="employee.cpp" />
     <ClCompile Include="employees.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BankAccount.h" />
     <ClInclude Include="employee.h" />
     <ClInclude Include="employees.h" />
   </ItemGroup>

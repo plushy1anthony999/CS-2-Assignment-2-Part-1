@@ -54,7 +54,7 @@ void Employees::sortByGrossSalary() {
 	}
 }
 
-Employees::Employees(const string filename, ifstream & employeeDataFile) { // Pass in an opened input-file
+Employees::Employees(const string filename, ifstream & employeeDataFile) {
 	if (employeeDataFile.is_open()) {
 		cout << "Reading employee data from " << filename << " ..." << endl;
 
@@ -113,7 +113,6 @@ Employees::Employees(const string filename, ifstream & employeeDataFile) { // Pa
 					if (currentToken == 7) {
 						// If bad data is read from the infile and passed in, an invalid Employee is created and added to the array
 						employees[i] = Employee( // Pass in the 7 tokens to construct and add an employee to the array
-							false,
 							firstName,
 							lastName,
 							employeeCode,
@@ -195,22 +194,25 @@ void Employees::sort(EMPLOYEE_SORT_FLAGS SORT_FLAG) {
 	}
 }
 
+
 void Employees::writeToFile(ofstream & outFile) const {
-	
-	outFile << left << setw(20) << "Name" << setw(10) << "ID#" << setw(16) << "Job Type" << setw(16) << "Gross Salary" << endl;
+	if (outFile.is_open()) {
+		outFile << left << setw(20) << "Name" << setw(10) << "ID#" << setw(16) << "Job Type" << setw(16) << "Gross Salary" << endl;
 
-	for (size_t i = 0; i < employeesLength; i++) {
-		Employee currentEmployee = getEmployeeByIndex(i);
-		size_t currentEmployeeIndex = i;
+		for (size_t i = 0; i < employeesLength; i++) {
+			Employee currentEmployee = getEmployeeByIndex(i);
+			size_t currentEmployeeIndex = i;
 
-		outFile << left << setw(20) << currentEmployee.getFirstName() + " " + currentEmployee.getLastName() << setw(10) << currentEmployee.getIdNumber() << setw(16) << currentEmployee.getJobType();
-			
-		if (currentEmployee.getIsValidEmployee())
-			outFile << '$' << setw(16) << fixed << setprecision(2) << currentEmployee.getGrossSalary() << endl;
-		else
-			outFile << setw(16) << "N/A" << endl;
+			outFile << left << setw(20) << currentEmployee.getFirstName() + " " + currentEmployee.getLastName() << setw(10) << currentEmployee.getIdNumber() << setw(16) << currentEmployee.getJobType();
+
+			if (currentEmployee.getIsValidEmployee())
+				outFile << '$' << setw(16) << fixed << setprecision(2) << currentEmployee.getGrossSalary() << endl;
+			else
+				outFile << setw(16) << "N/A" << endl;
+		}
 	}
-
+	else
+		cout << "The employees output file couldn't be opened..." << endl;
 }
 void Employees::writeToConsole(std::ostream & console) const {
 	for (size_t i = 0; i < employeesLength; i++) {
