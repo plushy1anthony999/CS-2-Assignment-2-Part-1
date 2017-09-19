@@ -321,6 +321,8 @@ void testBankAccountClass() {
 	assert(bankAccount1.getAccountNumber() == "1");
 	bankAccount2.setLastName("Smith");
 	assert(bankAccount2.getFullName() == "Anthony Smith");
+	bankAccount3.setFirstName("Billy");
+	assert(bankAccount3.getFullName() == "Billy Washington");
 
 	// Test toString()
 	stringstream sstream;

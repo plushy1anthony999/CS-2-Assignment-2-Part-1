@@ -64,7 +64,7 @@ const string BankAccount::toString() const { // FIXME
 }
 
 // Will write BankAccount info to either an opened-out-file or stdout
-void BankAccount::print(ostream & out) const {
+void BankAccount::print(ostream & out) const { // FIXME: Try casting to check if out is an ofstream object
 	//if (&out == &cout) { // if writing to stdout
 	//	out << "Account Number: " << ActNum << endl;
 	//	out << "First Name: " << FirstName << endl;
@@ -88,6 +88,9 @@ void BankAccount::setAccountNumber(const string & actN) {
 
 	ActNum = actN;
 }
+void BankAccount::setFirstName(const string & fname) {
+	FirstName = fname;
+}
 void BankAccount::setLastName(const string & lname) {
 	LastName = lname;
 }
@@ -107,4 +110,13 @@ const string BankAccount::getFullName() const {
 }
 double BankAccount::getBalance() const {
 	return balance;
+}
+
+void BankAccount::getInstance(BankAccount & BA) {
+	
+}
+void BankAccount::getInstance(BankAccount & BA, ifstream & in) {
+	if (in.is_open()) {
+
+	}
 }
