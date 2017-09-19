@@ -9,17 +9,20 @@ using namespace std;
 void doUnitTesting();
 void testEmployeeClass();
 void testEmployeesClass();
-void testBankAccountClass(); // FIXME - Add tests for print()
+void testBankAccountClass();
+void BankAccountMain(); // FIXME - Fix for assignment 2 part 2
 
 template <typename T>
 bool promptForValue(T & value, string promptMessage = "", string errorMessage = "");
 
 const bool UNIT_TESTING = true;
-
+const bool SYSTEM_TESTING = false;
 
 
 int main() {
 	if (UNIT_TESTING) doUnitTesting();
+
+	BankAccountMain();
 
 	/* Read in Employee Info input file */
 	string inputFileName;
@@ -313,12 +316,18 @@ void testBankAccountClass() {
 	assert(bankAccount2.getBalance() == 10);
 	assert(bankAccount3.getAccountNumber() == "12");
 	assert(bankAccount3.getBalance() == 0);
+	assert(bankAccount1.getIsEmpty() == true);
+	assert(bankAccount2.getIsEmpty() == false);
+	assert(bankAccount3.getIsEmpty() == false);
 
 	// Test Setters
 	bankAccount1.setAccountNumber("1");
 	assert(bankAccount1.getAccountNumber() == "1");
 	bankAccount1.setAccountNumber("");
 	assert(bankAccount1.getAccountNumber() == "1");
+	bankAccount1.setFirstName("George");
+	bankAccount1.setLastName("Ghouri");
+	assert(bankAccount1.getFullName() == "George Ghouri");
 	bankAccount2.setLastName("Smith");
 	assert(bankAccount2.getFullName() == "Anthony Smith");
 	bankAccount3.setFirstName("Billy");
@@ -352,10 +361,105 @@ void testBankAccountClass() {
 	assert(bankAccount2.toString() == sstream.str());
 
 	// Test print() w/ cout
+	cout << "Testing the BankAccount::print() method: " << endl;
+	bankAccount1.print();
 
 	// Test print() w/ output-file
 	ofstream outfile("BankAccount_toString()_Test.txt");
 	bankAccount1.print(outfile);
+
+	if (SYSTEM_TESTING) {
+		// Test getInstance with stdin
+		BankAccount bankAccount4;
+
+		BankAccount::getInstance(bankAccount4);
+		assert(bankAccount4.getAccountNumber() == "1111");
+		assert(bankAccount4.getFullName() == "George Washington");
+	}
+
+	// Test getInstance with input-file
+	BankAccount bankAccount5;
+
+	BankAccount::getInstance(bankAccount5, ifstream("getInstance_inputfile.txt"));
+	assert(bankAccount5.getAccountNumber() == "1234");
+	assert(bankAccount5.getFirstName() == "James");
+	assert(bankAccount5.getLastName() == "Doe");
+	assert(bankAccount5.getBalance() == 20.01);
+}
+
+void BankAccountMain() {
+	unsigned int menuOption = 0;
+	BankAccount bankAccount;
+
+	/* Display User Menu */
+	while (true) {
+			
+
+		cout << endl;
+		cout << "----------------------------------------------------------" << endl;
+		cout << "1. Create an account from keyboard data entry" << endl;
+		cout << "2. Create an account from input file data entry" << endl;
+		cout << "3. Print account balance to console" << endl;
+		cout << "4. Withdraw Money" << endl;
+		cout << "5. Deposit Money" << endl;
+		cout << "6. Print account details to console" << endl;
+		cout << "7. Print account details to an output file" << endl;
+		cout << "8. Print full name of account holder to console only" << endl;
+		cout << "9. Print account number only of the account holder to console" << endl;
+		cout << "10. Exit" << endl;
+		cout << endl;
+
+		if (!bankAccount.getIsEmpty())
+			cout << "You currently have a bank account opened" << endl << endl;
+		else 
+			cout << "You do not have a bank account opened" << endl << endl;
+
+		// If Valid option is selected
+		if (promptForValue(menuOption, "Enter your choice: ", "Please only provide a number between 1 and 10")) {
+
+			switch (menuOption) {
+			case 1:
+				BankAccount::getInstance(bankAccount);
+				continue;
+			case 2: {
+				string filename;
+				if (!promptForValue(filename, "Provide a file name to read from: ", "File could not be opened")) // if bad file name was given
+					continue;
+
+				ifstream inputFile(filename);
+				BankAccount::getInstance(bankAccount, inputFile);
+				continue;
+			}
+			case 3: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else
+					cout << "Current Balance: $" << fixed << setprecision(2) << bankAccount.getBalance() << endl;
+				continue;
+			}
+			case 4: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else {
+					double amount;
+					if (promptForValue(amount, "How much do you want to withdraw? ", "That's not a valid amount")) 
+						bankAccount.withdraw(amount);
+				}
+				continue;
+			}
+
+
+			case 10:
+				return; // Finishes Displaying menu
+
+			default:
+				cout << "Please only provide a number between 1 and 10" << endl;
+				continue;
+			}
+		}
+	}
 }
 
 template <typename T>

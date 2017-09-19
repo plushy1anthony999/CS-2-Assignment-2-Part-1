@@ -12,6 +12,8 @@ class BankAccount {
 	std::string LastName;
 	double balance;
 
+	bool isEmpty = true;
+
 	bool isInteger(const std::string & text) const;
 
 public:
@@ -35,6 +37,7 @@ public:
 	const std::string getLastName() const;
 	const std::string getFullName() const;
 	double getBalance() const;
+	bool getIsEmpty() const;
 
 	// Expects an empty BankAccount object that will be filled through keyboard input
 	static void getInstance(BankAccount & BA);

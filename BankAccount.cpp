@@ -2,20 +2,52 @@
 
 using namespace std;
 
+template <typename T> // FIXME
+bool promptForValue(T & value, string promptMessage, string errorMessage) {
+
+	string strInput;
+
+	if (!promptMessage.empty())
+		cout << promptMessage;
+
+	getline(cin, strInput); // Read user input as string
+	stringstream sstreamInput(strInput); // turns the string into a stream
+
+										 // Checks for complete conversion to the return type T
+	if (
+		sstreamInput >> value &&
+		!(sstreamInput >> strInput) // Make sure that no garbage is left in sstreamInput
+		)
+		return true;
+	else {
+		cin.clear(); // just in case if cin entered a bad state
+
+		if (!errorMessage.empty())
+			cout << errorMessage << endl;
+
+		return false;
+	}
+}
+
+
 BankAccount::BankAccount() {
 	ActNum = "Account Number not set";
 	FirstName = "First Name not set";
 	LastName = "Last Name not set";
 	balance = 0;
+
+	isEmpty = true;
 }
 
 BankAccount::BankAccount(const std::string & actN, const std::string & fname, const std::string & lname, double bal) :
 	ActNum(actN), FirstName(fname), LastName(lname), balance(bal) 
 {
 	if (balance < 0) {
-		cout << "The balance connect be negative. It's been set to 0" << endl;
+		cout << "The balance can not be negative. It's been set to 0" << endl;
 		balance = 0;
 	}
+
+	isEmpty = false;
 }
 
 void BankAccount::deposit(double money) {
@@ -111,12 +143,77 @@ const string BankAccount::getFullName() const {
 double BankAccount::getBalance() const {
 	return balance;
 }
+bool BankAccount::getIsEmpty() const {
+	return isEmpty;
+}
 
-void BankAccount::getInstance(BankAccount & BA) {
+void BankAccount::getInstance(BankAccount & BA) { // FIXME
+	cout << "New Bank Account: " << endl;
+
+	string accountNumber;
+	cout << "Account Number: ";
+	if (!promptForValue(accountNumber, "", "")) {
+		cout << "Invalid accountNumber given" << endl;
+		return;
+	}
+	else if (!BA.isInteger(accountNumber)) {
+		cout << "Invalid accountNumber given" << endl;
+		return;
+	}
+
+	string firstName;
+	cout << "First Name: ";
+	if (!promptForValue(firstName, "", "")) {
+		cout << "Invalid First Name given" << endl;
+		return;
+	}
 	
+	string lastName;
+	cout << "Last Name: ";
+	if (!promptForValue(lastName, "", "")) {
+		cout << "Invalid Last Name given" << endl;
+		return;
+	}
+
+	double balance;
+	cout << "Balance: ";
+	if (!promptForValue(balance, "", "")) {
+		cout << "Invalid Initial Balance was given" << endl;
+		return;
+	}
+
+	BA = BankAccount(accountNumber, firstName, lastName, balance);
 }
 void BankAccount::getInstance(BankAccount & BA, ifstream & in) {
 	if (in.is_open()) {
+		// BankAccount info to be passed in when constructing a BankAccount to replace the one passed in
+		string accountNumber;
+		string lastName;
+		string firstName;
+		double balance;
 
+		// Read in 4 tokens to fill out BankAccount info variables
+		// Assume input file is formatted properly
+		for (size_t currentToken = 0; currentToken < 4; currentToken++) {
+			switch (currentToken) {
+			case 0:
+				in >> accountNumber;
+				break;
+				
+			case 1:
+				in >> lastName;
+				break;
+
+			case 2:
+				in >> firstName;
+				break;
+
+			case 3:
+				in >> balance;
+				break;
+			}
+		}
+
+		BA = BankAccount(accountNumber, firstName, lastName, balance);
 	}
 }

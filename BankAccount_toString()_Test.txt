@@ -1,4 +1,4 @@
 Account Number: 1
-First Name: First Name not set
-Last Name: Last Name not set
+First Name: George
+Last Name: Ghouri
 Balance: 7
