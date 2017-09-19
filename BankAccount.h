@@ -18,9 +18,10 @@ public:
 	BankAccount(const std::string & actN, const std::string & fname, const std::string & lname, double bal);
 
 	void deposit(double money);
+	void withdraw(double money);
 
 	const std::string toString() const;
-	void print(std::ostream & out = std::cout) const; // FIXME
+	void print(std::ostream & out = std::cout) const;
 
 	// Setters
 	void setAccountNumber(const std::string & actN);

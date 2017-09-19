@@ -22,11 +22,28 @@ void BankAccount::deposit(double money) {
 	if (money == 0) 
 		cout << "You have tried to deposit $0.00. Your balance is unchanged" << endl;
 	if (money < 0) 
-		cout << "Please provide a positive amount." << endl;
+		cout << "Please provide a positive amount to deposit." << endl;
 	if (money > 0) {
 		balance += money;
 		cout << "You have deposited $" << fixed << setprecision(2) << money << endl;
 		cout << "Your new balance is $" << fixed << setprecision(2) << balance << endl;
+	}
+}
+void BankAccount::withdraw(double money) {
+	if (money == 0)
+		cout << "You have tried to withdraw $0.00. Your balance is unchanged" << endl;
+	if (money < 0)
+		cout << "Please provide a positive amount to withdraw." << endl;
+	if (money > 0) {
+		if (money > balance) {
+			cout << "You have tried to withdraw $" << fixed << setprecision(2) << money << ", which is greater than your current balance of $" << fixed << setprecision(2) << balance << endl;
+			cout << "Please provide a lower amount to withdraw." << endl;
+		}
+		else {
+			cout << "You have withdrawn $" << fixed << setprecision(2) << money << endl;
+			balance -= money;
+			cout << "Your current balance is $" << fixed << setprecision(2) << balance << endl;
+		}
 	}
 }
 
@@ -47,7 +64,7 @@ const string BankAccount::toString() const { // FIXME
 }
 
 // Will write BankAccount info to either an opened-out-file or stdout
-void BankAccount::print(ostream & out) const { // FIXME
+void BankAccount::print(ostream & out) const {
 	//if (&out == &cout) { // if writing to stdout
 	//	out << "Account Number: " << ActNum << endl;
 	//	out << "First Name: " << FirstName << endl;

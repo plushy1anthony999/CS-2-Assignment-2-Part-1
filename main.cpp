@@ -9,7 +9,7 @@ using namespace std;
 void doUnitTesting();
 void testEmployeeClass();
 void testEmployeesClass();
-void testBankAccountClass();
+void testBankAccountClass(); // FIXME - Add tests for print()
 
 template <typename T>
 bool promptForValue(T & value, string promptMessage = "", string errorMessage = "");
@@ -326,6 +326,24 @@ void testBankAccountClass() {
 	stringstream sstream;
 	sstream << left << setw(20) << "Name" << setw(20) << "Account Number" << setw(16) << "Current Balance" << endl;
 	sstream << left << setw(20) << "Anthony Smith" << setw(20) << "123" << '$' << setw(16) << fixed << setprecision(2) << (double)10;
+
+	// Test deposit()
+	bankAccount1.deposit(-1);
+	assert(bankAccount1.getBalance() == 0);
+	bankAccount1.deposit(100);
+	assert(bankAccount1.getBalance() == 100);
+	bankAccount1.deposit(10);
+	assert(bankAccount1.getBalance() == 110);
+
+	// Test withdraw()
+	bankAccount1.withdraw(0);
+	assert(bankAccount1.getBalance() == 110);
+	bankAccount1.withdraw(-10);
+	assert(bankAccount1.getBalance() == 110);
+	bankAccount1.withdraw(120);
+	assert(bankAccount1.getBalance() == 110);
+	bankAccount1.withdraw(103);
+	assert(bankAccount1.getBalance() == 7);
 
 	//cout << sstream.str() << endl;
 	//cout << bankAccount2.toString() << endl;
