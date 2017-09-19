@@ -123,12 +123,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BankAccount.cpp" />
+    <ClCompile Include="BankAccountList.cpp" />
     <ClCompile Include="employee.cpp" />
     <ClCompile Include="employees.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BankAccount.h" />
+    <ClInclude Include="BankAccountList.h" />
     <ClInclude Include="employee.h" />
     <ClInclude Include="employees.h" />
   </ItemGroup>

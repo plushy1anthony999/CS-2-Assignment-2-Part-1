@@ -48,12 +48,18 @@ const string BankAccount::toString() const { // FIXME
 
 // Will write BankAccount info to either an opened-out-file or stdout
 void BankAccount::print(ostream & out) const { // FIXME
-	if (&out == &cout) { // if writing to stdout
-
-	}
-	else {
-		//if((static_cast<ofstream>out).)
-	}
+	//if (&out == &cout) { // if writing to stdout
+	//	out << "Account Number: " << ActNum << endl;
+	//	out << "First Name: " << FirstName << endl;
+	//	out << "Last Name: " << LastName << endl;
+	//	out << "Balance: " << balance << endl;
+	//}
+	//else {
+		out << "Account Number: " << ActNum << endl;
+		out << "First Name: " << FirstName << endl;
+		out << "Last Name: " << LastName << endl;
+		out << "Balance: " << balance << endl;
+	//}
 }
 
 // Setters
