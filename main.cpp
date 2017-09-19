@@ -393,7 +393,6 @@ void BankAccountMain() {
 
 	/* Display User Menu */
 	while (true) {
-			
 
 		cout << endl;
 		cout << "----------------------------------------------------------" << endl;
@@ -418,9 +417,11 @@ void BankAccountMain() {
 		if (promptForValue(menuOption, "Enter your choice: ", "Please only provide a number between 1 and 10")) {
 
 			switch (menuOption) {
-			case 1:
+			case 1: {
 				BankAccount::getInstance(bankAccount);
+
 				continue;
+			}
 			case 2: {
 				string filename;
 				if (!promptForValue(filename, "Provide a file name to read from: ", "File could not be opened")) // if bad file name was given
@@ -428,6 +429,7 @@ void BankAccountMain() {
 
 				ifstream inputFile(filename);
 				BankAccount::getInstance(bankAccount, inputFile);
+
 				continue;
 			}
 			case 3: {
@@ -449,7 +451,53 @@ void BankAccountMain() {
 				}
 				continue;
 			}
-
+			case 5: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else {
+					double amount;
+					if (promptForValue(amount, "How much do you want to deposit? ", "That's not a valid amount"))
+						bankAccount.deposit(amount);
+				}
+				continue;
+			}
+			case 6: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else
+					bankAccount.print();
+				continue;
+			}
+			case 7: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else {
+					string outFileName;
+					if (promptForValue(outFileName, "What should the output file's filnname be? ", "Invalid filename given")) {
+						bankAccount.print(ofstream(outFileName));
+					}
+				}					
+				continue;
+			}
+			case 8: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else
+					cout << "Account Holder: " << bankAccount.getFullName() << endl;
+				continue;
+			}
+			case 9: {
+				if (bankAccount.getIsEmpty()) {
+					cout << "An instance of BankAccount has not yet been created. Please first choose either options 1 or 2." << endl;
+				}
+				else
+					cout << "Account Number: " << bankAccount.getAccountNumber() << endl;
+				continue;
+			}
 
 			case 10:
 				return; // Finishes Displaying menu

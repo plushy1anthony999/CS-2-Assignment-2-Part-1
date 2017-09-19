@@ -107,7 +107,7 @@ void BankAccount::print(ostream & out) const { // FIXME: Try casting to check if
 		out << "Account Number: " << ActNum << endl;
 		out << "First Name: " << FirstName << endl;
 		out << "Last Name: " << LastName << endl;
-		out << "Balance: " << balance << endl;
+		out << "Balance: $" << fixed << setprecision(2) << balance << endl;
 	//}
 }
 
@@ -148,7 +148,8 @@ bool BankAccount::getIsEmpty() const {
 }
 
 void BankAccount::getInstance(BankAccount & BA) { // FIXME
-	cout << "New Bank Account: " << endl;
+	cout << "New Bank Account" << endl;
+	cout << "-----------------" << endl;
 
 	string accountNumber;
 	cout << "Account Number: ";
@@ -199,7 +200,7 @@ void BankAccount::getInstance(BankAccount & BA, ifstream & in) {
 			case 0:
 				in >> accountNumber;
 				break;
-				
+
 			case 1:
 				in >> lastName;
 				break;
@@ -216,4 +217,6 @@ void BankAccount::getInstance(BankAccount & BA, ifstream & in) {
 
 		BA = BankAccount(accountNumber, firstName, lastName, balance);
 	}
+	else
+		cout << "The file could not be opened" << endl;
 }
